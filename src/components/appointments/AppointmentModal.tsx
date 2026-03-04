@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Calendar as CalendarIcon, User, Stethoscope, Clock, FileText, Shield, AlertCircle, MessageSquare, Phone } from 'lucide-react';
-import { Appointment, useHISStore } from '@/store/hisStore';
+import { Appointment, useHISStore, Patient, Room } from '@/store/hisStore';
 import { validateConflict } from '@/utils/appointmentUtils';
 import { openWhatsApp, generateAppointmentMessage } from '@/utils/whatsappUtils';
 
@@ -25,7 +25,7 @@ const STATUSES: Appointment['status'][] = ['Scheduled', 'Confirmed', 'Checked-in
 const PRIORITIES: Appointment['priority'][] = ['Normal', 'Urgent', 'Emergency'];
 
 export default function AppointmentModal({ isOpen, onClose, initialData }: AppointmentModalProps) {
-    const { patients, appointments, addAppointment, updateAppointment, deleteAppointment } = useHISStore();
+    const { patients, appointments, rooms, addAppointment, updateAppointment, deleteAppointment, allocateRoom } = useHISStore();
 
     // Form State
     const [patientId, setPatientId] = useState('');
@@ -46,6 +46,8 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
     const [address, setAddress] = useState('');
     const [patientType, setPatientType] = useState<'OP' | 'IP'>('OP');
     const [notes, setNotes] = useState('');
+    const [selectedWard, setSelectedWard] = useState('');
+    const [selectedRoomId, setSelectedRoomId] = useState('');
     const [error, setError] = useState('');
     const [toast, setToast] = useState('');
 
@@ -108,6 +110,8 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
         setAddress('');
         setPatientType('OP');
         setNotes('');
+        setSelectedWard('');
+        setSelectedRoomId('');
     };
 
     const handleSave = (e: React.FormEvent) => {
@@ -177,11 +181,21 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
             };
             addAppointment(newAppt);
 
+            // Notify user with Token and ID
+            const tokenMsg = newAppt.tokenNumber ? ` | Token: ${newAppt.tokenNumber}` : '';
+            alert(`Appointment Created!\nPatient ID: ${patientId}${tokenMsg}`);
+
             // Trigger WhatsApp if scheduled
             if (status === 'Scheduled') {
                 const msg = generateAppointmentMessage('Scheduled', { patientName, doctorName, startTime: start });
                 openWhatsApp(phone, msg);
                 setToast('WhatsApp message prepared');
+            }
+
+            // Handle IP Admission
+            if ((visitType === 'IP Admission' || patientType === 'IP') && selectedRoomId) {
+                allocateRoom(selectedRoomId, newAppt.patientId, newAppt.id);
+                setToast('Patient Admitted and Room Allocated');
             }
         }
 
@@ -410,7 +424,12 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                                 </label>
                                 <select
                                     value={visitType}
-                                    onChange={(e) => setVisitType(e.target.value)}
+                                    onChange={(e) => {
+                                        setVisitType(e.target.value);
+                                        if (e.target.value === 'IP Admission') {
+                                            setPatientType('IP');
+                                        }
+                                    }}
                                     disabled={isReadOnly}
                                     style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid var(--border)', background: isReadOnly ? 'rgba(0,0,0,0.02)' : 'var(--background)', color: 'var(--text-main)', opacity: isReadOnly ? 0.7 : 1 }}
                                 >
@@ -419,6 +438,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                                     <option value="Emergency">Emergency</option>
                                     <option value="Surgery">Surgery</option>
                                     <option value="Lab Test">Lab Test</option>
+                                    <option value="IP Admission">IP Admission</option>
                                 </select>
                             </div>
                         </div>
@@ -524,6 +544,62 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                             />
                             <label htmlFor="insurance" style={{ fontSize: '0.85rem', fontWeight: '600', cursor: isReadOnly ? 'not-allowed' : 'pointer' }}>Has Medical Insurance</label>
                         </div>
+
+                        {visitType === 'IP Admission' && (
+                            <motion.div
+                                initial={{ height: 0, opacity: 0 }}
+                                animate={{ height: 'auto', opacity: 1 }}
+                                style={{
+                                    padding: '20px',
+                                    borderRadius: '12px',
+                                    background: 'rgba(var(--primary-rgb), 0.05)',
+                                    border: '1px solid var(--primary)',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: '16px'
+                                }}
+                            >
+                                <h3 style={{ fontSize: '1rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <Shield size={18} color="var(--primary)" /> Room Allocation
+                                </h3>
+
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                    <div>
+                                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: '700', marginBottom: '4px' }}>Ward Type</label>
+                                        <select
+                                            value={selectedWard}
+                                            onChange={(e) => {
+                                                setSelectedWard(e.target.value);
+                                                setSelectedRoomId('');
+                                            }}
+                                            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--background)' }}
+                                        >
+                                            <option value="">Select Ward</option>
+                                            {Array.from(new Set(rooms.map(r => r.wardType))).map(w => <option key={w} value={w}>{w}</option>)}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: '700', marginBottom: '4px' }}>Available Beds</label>
+                                        <select
+                                            value={selectedRoomId}
+                                            onChange={(e) => setSelectedRoomId(e.target.value)}
+                                            disabled={!selectedWard}
+                                            style={{ width: '100%', padding: '10px', borderRadius: '8px', border: '1px solid var(--border)', background: 'var(--background)' }}
+                                        >
+                                            <option value="">Select Bed</option>
+                                            {rooms
+                                                .filter(r => r.wardType === selectedWard && r.status === 'Available')
+                                                .map(r => (
+                                                    <option key={r.id} value={r.id}>
+                                                        Room {r.roomNumber} - Bed {r.bedNumber} (₹{r.dailyCharge}/day)
+                                                    </option>
+                                                ))
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        )}
 
                         <div>
                             <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '700', marginBottom: '8px' }}>

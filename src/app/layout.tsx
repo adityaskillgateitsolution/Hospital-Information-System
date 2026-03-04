@@ -6,6 +6,9 @@ import AuthGuard from "@/components/AuthGuard";
 export const metadata: Metadata = {
   title: "Hospital Information System",
   description: "Enterprise Medical Platform",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
