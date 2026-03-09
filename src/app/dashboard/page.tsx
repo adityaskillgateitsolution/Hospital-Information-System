@@ -7,7 +7,11 @@ import {
     ClipboardCheck,
     CreditCard,
     FileText,
-    ArrowRight
+    ArrowRight,
+    Activity,
+    Bell,
+    FileSearch,
+    IndianRupee
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
@@ -64,10 +68,15 @@ export default function Dashboard() {
     const { patients, vitals, reports, appointments, invoices } = useHISStore();
 
     const stats = [
-        { label: 'OP/IP Patients', value: patients.length, color: '#3b82f6' },
-        { label: 'Critical Alerts', value: vitals.filter(v => v.temperature > 39 || v.oxygenSaturation < 92).length, color: '#ef4444' },
-        { label: 'Pending Reports', value: reports.filter(r => r.status === 'Processing').length, color: '#8b5cf6' },
-        { label: 'Total Unpaid', value: invoices.filter(i => i.status === 'Unpaid').length, color: '#f59e0b' }
+        { label: 'OP/IP Patients', value: patients.length, color: '#3b82f6', icon: Activity },
+        { label: 'Critical Alerts', value: vitals.filter(v => v.temperature > 39 || v.oxygenSaturation < 92).length, color: '#ef4444', icon: Bell },
+        { label: 'Pending Reports', value: reports.filter(r => r.status === 'Processing').length, color: '#8b5cf6', icon: FileSearch },
+        {
+            label: 'Total Unpaid',
+            value: `₹${invoices.filter(i => i.status === 'Unpaid').reduce((acc, curr) => acc + curr.finalAmount, 0).toLocaleString('en-IN')}`,
+            color: '#f59e0b',
+            icon: IndianRupee
+        }
     ];
 
     const container = {
@@ -95,11 +104,31 @@ export default function Dashboard() {
                         <h1 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '8px', letterSpacing: '-0.02em' }}>Hospital Control Center</h1>
                         <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Real-time health informatics and department overview.</p>
                     </div>
-                    <div style={{ display: 'flex', gap: '32px', marginTop: '20px' }} className="mobile-stack">
+                    <div style={{ display: 'flex', gap: '20px', marginTop: '20px', flexWrap: 'wrap' }} className="mobile-stack">
                         {stats.map((s, i) => (
-                            <div key={i} style={{ textAlign: 'inherit' }} className="mobile-padding glass">
-                                <p style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>{s.label}</p>
-                                <h2 style={{ fontSize: '1.75rem', fontWeight: '900', color: s.color }}>{s.value}</h2>
+                            <div key={i} style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '16px',
+                                padding: '20px 24px',
+                                minWidth: '220px'
+                            }} className="glass">
+                                <div style={{
+                                    width: '48px',
+                                    height: '48px',
+                                    background: s.color + '15',
+                                    borderRadius: '12px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    color: s.color
+                                }}>
+                                    <s.icon size={24} />
+                                </div>
+                                <div>
+                                    <p style={{ fontSize: '0.7rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '2px', letterSpacing: '0.05em' }}>{s.label}</p>
+                                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: 'var(--text-main)' }}>{s.value}</h2>
+                                </div>
                             </div>
                         ))}
                     </div>
