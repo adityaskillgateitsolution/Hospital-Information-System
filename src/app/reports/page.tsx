@@ -200,13 +200,13 @@ export default function ReportsPage() {
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '24px',
-                                    borderLeft: isCritical(rep.result) ? '4px solid #ef4444' : '1px solid var(--border)'
+                                    borderLeft: isCritical(rep.result) ? '4px solid var(--error)' : '1px solid var(--border)'
                                 }}
                             >
                                 <div style={{
                                     width: '48px', height: '48px', borderRadius: '12px',
-                                    background: isCritical(rep.result) ? '#fee2e2' : 'var(--primary)10',
-                                    color: isCritical(rep.result) ? '#ef4444' : 'var(--primary)',
+                                    background: isCritical(rep.result) ? 'var(--error-bg)' : 'rgba(var(--primary-rgb), 0.1)',
+                                    color: isCritical(rep.result) ? 'var(--error)' : 'var(--primary)',
                                     display: 'flex', alignItems: 'center', justifyContent: 'center'
                                 }}>
                                     {isCritical(rep.result) ? <AlertTriangle size={24} /> : <FileText size={24} />}
@@ -216,7 +216,7 @@ export default function ReportsPage() {
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
                                         <h3 style={{ fontWeight: '700', fontSize: '1.1rem' }}>{rep.testName}</h3>
                                         {isCritical(rep.result) && (
-                                            <span style={{ fontSize: '0.7rem', background: '#ef4444', color: 'white', padding: '2px 8px', borderRadius: '4px', fontWeight: '800' }}>CRITICAL</span>
+                                            <span style={{ fontSize: '0.7rem', background: 'var(--error)', color: 'white', padding: '2px 8px', borderRadius: '4px', fontWeight: '800' }}>CRITICAL</span>
                                         )}
                                     </div>
                                     <p style={{ fontSize: '0.9rem', color: 'var(--text-muted)' }}>
@@ -227,9 +227,9 @@ export default function ReportsPage() {
                                 <div style={{ flex: 1 }}>
                                     <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '600' }}>STATUS</p>
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '4px' }}>
-                                        {rep.status === 'Processing' && <Clock size={16} color="#f59e0b" />}
+                                        {rep.status === 'Processing' && <Clock size={16} color="var(--warning)" />}
                                         {rep.status === 'Verified' && <ShieldCheck size={16} color="var(--primary)" />}
-                                        {rep.status === 'Ready' && <CheckCircle2 size={16} color="var(--accent)" />}
+                                        {rep.status === 'Ready' && <CheckCircle2 size={16} color="var(--success)" />}
                                         {rep.status === 'Dispatched' && <Send size={16} color="#8b5cf6" />}
                                         <span style={{ fontWeight: '700', fontSize: '0.85rem' }}>{rep.status}</span>
                                     </div>
@@ -240,7 +240,7 @@ export default function ReportsPage() {
                                         <button onClick={() => updateReportStatus(rep.id, 'Verified')} className="card-hover" style={{ background: 'var(--primary)', color: 'white', padding: '8px 16px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600' }}>Verify</button>
                                     )}
                                     {rep.status === 'Verified' && (
-                                        <button onClick={() => updateReportStatus(rep.id, 'Ready')} className="card-hover" style={{ background: 'var(--accent)', color: 'white', padding: '8px 16px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600' }}>Make Ready</button>
+                                        <button onClick={() => updateReportStatus(rep.id, 'Ready')} className="card-hover" style={{ background: 'var(--success)', color: 'white', padding: '8px 16px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600' }}>Make Ready</button>
                                     )}
                                     {rep.status === 'Ready' && (
                                         <button onClick={() => updateReportStatus(rep.id, 'Dispatched')} className="card-hover" style={{ background: '#8b5cf6', color: 'white', padding: '8px 16px', borderRadius: '8px', fontSize: '0.8rem', fontWeight: '600' }}>Dispatch</button>

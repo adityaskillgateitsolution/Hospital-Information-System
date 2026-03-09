@@ -437,7 +437,7 @@ export default function PatientsPage() {
                                 <div style={{ display: 'flex', gap: '8px' }}>
                                     <button
                                         onClick={() => handleEditClick(selectedPatient)}
-                                        style={{ color: 'var(--primary)', padding: '8px', borderRadius: '8px', background: 'var(--primary)10' }}
+                                        style={{ color: 'var(--primary)', padding: '8px', borderRadius: '8px', background: 'rgba(var(--primary-rgb), 0.1)' }}
                                         className="card-hover"
                                         title="Edit Patient"
                                     >
@@ -445,7 +445,7 @@ export default function PatientsPage() {
                                     </button>
                                     <button
                                         onClick={handleDeleteRequest}
-                                        style={{ color: '#ef4444', padding: '8px', borderRadius: '8px', background: '#ef444410' }}
+                                        style={{ color: 'var(--error)', padding: '8px', borderRadius: '8px', background: 'var(--error-bg)' }}
                                         className="card-hover"
                                         title="Delete Patient"
                                     >
@@ -465,10 +465,10 @@ export default function PatientsPage() {
                                         <div style={{
                                             marginBottom: '24px',
                                             padding: '24px',
-                                            background: 'linear-gradient(135deg, var(--primary)15, var(--primary)05)',
+                                            background: 'linear-gradient(135deg, rgba(var(--primary-rgb), 0.15), rgba(var(--primary-rgb), 0.05))',
                                             borderRadius: '20px',
-                                            border: '1px solid var(--primary)30',
-                                            boxShadow: '0 4px 12px var(--primary)10'
+                                            border: '1px solid rgba(var(--primary-rgb), 0.3)',
+                                            boxShadow: '0 4px 12px rgba(var(--primary-rgb), 0.1)'
                                         }}>
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px' }}>
                                                 <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: 'var(--primary)' }}></div>
@@ -502,8 +502,8 @@ export default function PatientsPage() {
                                     initial={{ opacity: 0, y: -10 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     style={{
-                                        background: '#fee2e2',
-                                        color: '#ef4444',
+                                        background: 'var(--error-bg)',
+                                        color: 'var(--error)',
                                         padding: '12px 20px',
                                         borderRadius: '12px',
                                         marginBottom: '24px',
@@ -512,7 +512,7 @@ export default function PatientsPage() {
                                         justifyContent: 'space-between',
                                         fontSize: '0.9rem',
                                         fontWeight: '600',
-                                        border: '1px solid #fecaca'
+                                        border: '1px solid var(--error)'
                                     }}
                                 >
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -556,15 +556,15 @@ export default function PatientsPage() {
 
                             {/* Vitals & Clinical Info Display */}
                             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px', marginBottom: '32px' }}>
-                                <div style={{ padding: '12px', background: 'var(--primary)05', borderRadius: '12px', border: '1px solid var(--primary)15' }}>
+                                <div style={{ padding: '12px', background: 'rgba(var(--primary-rgb), 0.05)', borderRadius: '12px', border: '1px solid rgba(var(--primary-rgb), 0.15)' }}>
                                     <p style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: '700' }}>TEMPERATURE</p>
                                     <p style={{ fontWeight: '700' }}>{selectedPatient.temperature || '—'} °C</p>
                                 </div>
-                                <div style={{ padding: '12px', background: 'var(--primary)05', borderRadius: '12px', border: '1px solid var(--primary)15' }}>
+                                <div style={{ padding: '12px', background: 'rgba(var(--primary-rgb), 0.05)', borderRadius: '12px', border: '1px solid rgba(var(--primary-rgb), 0.15)' }}>
                                     <p style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: '700' }}>WEIGHT</p>
                                     <p style={{ fontWeight: '700' }}>{selectedPatient.weight || '—'} kg</p>
                                 </div>
-                                <div style={{ padding: '12px', background: 'var(--primary)05', borderRadius: '12px', border: '1px solid var(--primary)15' }}>
+                                <div style={{ padding: '12px', background: 'rgba(var(--primary-rgb), 0.05)', borderRadius: '12px', border: '1px solid rgba(var(--primary-rgb), 0.15)' }}>
                                     <p style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: '700' }}>BLOOD PRESSURE</p>
                                     <p style={{ fontWeight: '700' }}>{selectedPatient.bloodPressure || '—'} mmHg</p>
                                 </div>
@@ -595,7 +595,7 @@ export default function PatientsPage() {
                                         selectedPatient.medicalHistory.map((h, i) => (
                                             <span key={i} style={{
                                                 padding: '4px 12px',
-                                                background: 'var(--primary)10',
+                                                background: 'rgba(var(--primary-rgb), 0.1)',
                                                 color: 'var(--primary)',
                                                 borderRadius: '20px',
                                                 fontSize: '0.875rem',
@@ -773,7 +773,7 @@ export default function PatientsPage() {
                                         <input
                                             type="text"
                                             value={bloodGroup}
-                                            onChange={(e) => setBloodGroup(e.target.value)}
+                                            onChange={(e) => setBloodGroup(e.target.value.toUpperCase())}
                                             placeholder="O+"
                                             style={{
                                                 width: '100%',

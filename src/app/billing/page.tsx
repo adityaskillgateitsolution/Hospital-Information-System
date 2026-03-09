@@ -181,7 +181,7 @@ export default function BillingPage() {
                 {/* Stats Summary */}
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px', marginBottom: '32px' }}>
                     <div className="glass" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
-                        <div style={{ padding: '12px', background: 'var(--primary)15', borderRadius: '12px', color: 'var(--primary)' }}>
+                        <div style={{ padding: '12px', background: 'rgba(var(--primary-rgb), 0.15)', borderRadius: '12px', color: 'var(--primary)' }}>
                             <DollarSign size={24} />
                         </div>
                         <div>
@@ -192,7 +192,7 @@ export default function BillingPage() {
                         </div>
                     </div>
                     <div className="glass" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
-                        <div style={{ padding: '12px', background: '#ef444415', borderRadius: '12px', color: '#ef4444' }}>
+                        <div style={{ padding: '12px', background: 'var(--error-bg)', borderRadius: '12px', color: 'var(--error)' }}>
                             <CreditCard size={24} />
                         </div>
                         <div>
@@ -203,7 +203,7 @@ export default function BillingPage() {
                         </div>
                     </div>
                     <div className="glass" style={{ padding: '24px', display: 'flex', alignItems: 'center', gap: '20px' }}>
-                        <div style={{ padding: '12px', background: 'var(--accent)15', borderRadius: '12px', color: 'var(--accent)' }}>
+                        <div style={{ padding: '12px', background: 'rgba(var(--accent-rgb), 0.15)', borderRadius: '12px', color: 'var(--accent)' }}>
                             <CheckCircle size={24} />
                         </div>
                         <div>
@@ -262,8 +262,9 @@ export default function BillingPage() {
                                                 borderRadius: '20px',
                                                 fontSize: '0.75rem',
                                                 fontWeight: '700',
-                                                background: inv.status === 'Paid' ? '#dcfce7' : '#fee2e2',
-                                                color: inv.status === 'Paid' ? '#166534' : '#991b1b'
+                                                background: inv.status === 'Paid' ? 'var(--success-bg)' : 'var(--error-bg)',
+                                                color: inv.status === 'Paid' ? 'var(--success)' : 'var(--error)',
+                                                border: `1px solid ${inv.status === 'Paid' ? 'var(--success)' : 'var(--error)'}`
                                             }}>
                                                 {inv.status} {inv.paymentMethod && `(${inv.paymentMethod})`}
                                             </span>
@@ -366,12 +367,12 @@ export default function BillingPage() {
                                         />
                                     </div>
 
-                                    <div className="glass" style={{ padding: '16px', borderRadius: '12px', background: 'var(--primary)05' }}>
+                                    <div className="glass" style={{ padding: '16px', borderRadius: '12px', background: 'rgba(var(--primary-rgb), 0.05)' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
                                             <span>Subtotal:</span>
                                             <span style={{ fontWeight: '700' }}>₹{subtotal.toFixed(2)}</span>
                                         </div>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', fontSize: '0.9rem', color: '#ef4444' }}>
+                                        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', fontSize: '0.9rem', color: 'var(--error)' }}>
                                             <span>Discount:</span>
                                             <span>-₹{discount.toFixed(2)}</span>
                                         </div>

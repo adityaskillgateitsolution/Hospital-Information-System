@@ -36,7 +36,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
     const [department, setDepartment] = useState('');
     const [visitType, setVisitType] = useState('Consultation');
     const [start, setStart] = useState('');
-    const [duration, setDuration] = useState('30');
+    const [duration, setDuration] = useState('15');
     const [status, setStatus] = useState<Appointment['status']>('Scheduled');
     const [priority, setPriority] = useState<Appointment['priority']>('Normal');
     const [insurance, setInsurance] = useState(false);
@@ -66,7 +66,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                 const diff = (new Date(initialData.end).getTime() - new Date(initialData.start).getTime()) / 60000;
                 setDuration(diff.toString());
             } else {
-                setDuration('30');
+                setDuration('15');
             }
 
             setStatus(initialData.status || 'Scheduled');
@@ -100,7 +100,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
         setDepartment('');
         setVisitType('Consultation');
         setStart('');
-        setDuration('30');
+        setDuration('15');
         setStatus('Scheduled');
         setPriority('Normal');
         setInsurance(false);
@@ -244,13 +244,13 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
 
                     <form onSubmit={handleSave} style={{ padding: '32px', display: 'flex', flexDirection: 'column', gap: '24px' }}>
                         {error && (
-                            <div style={{ background: '#fee2e2', color: '#ef4444', padding: '12px', borderRadius: '10px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div style={{ background: 'var(--error-bg)', color: 'var(--error)', padding: '12px', borderRadius: '10px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--error)' }}>
                                 <AlertCircle size={16} /> {error}
                             </div>
                         )}
 
                         {isReadOnly && (
-                            <div style={{ background: '#fef3c7', color: '#92400e', padding: '12px', borderRadius: '10px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid #fde68a' }}>
+                            <div style={{ background: 'var(--pending-bg)', color: 'var(--pending)', padding: '12px', borderRadius: '10px', fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '8px', border: '1px solid var(--pending)' }}>
                                 <AlertCircle size={16} /> Past appointments cannot be modified (Read-Only)
                             </div>
                         )}
@@ -347,7 +347,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                                 <input
                                     type="text"
                                     value={bloodGroup}
-                                    onChange={(e) => setBloodGroup(e.target.value)}
+                                    onChange={(e) => setBloodGroup(e.target.value.toUpperCase())}
                                     disabled={isReadOnly}
                                     placeholder="O+"
                                     style={{ width: '100%', padding: '12px', borderRadius: '10px', border: '1px solid var(--border)', background: isReadOnly ? 'rgba(0,0,0,0.02)' : 'var(--background)', color: 'var(--text-main)', opacity: isReadOnly ? 0.7 : 1 }}
@@ -620,7 +620,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                                     <button
                                         type="button"
                                         onClick={handleDelete}
-                                        style={{ padding: '12px 24px', borderRadius: '12px', border: '1px solid #ef4444', color: '#ef4444', fontWeight: '700' }}
+                                        style={{ padding: '12px 24px', borderRadius: '12px', border: '1px solid var(--error)', color: 'var(--error)', fontWeight: '700' }}
                                     >
                                         Delete
                                     </button>

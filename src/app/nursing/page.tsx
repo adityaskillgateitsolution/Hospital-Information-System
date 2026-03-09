@@ -218,7 +218,7 @@ export default function NursingPage() {
             <main style={{ maxWidth: '1600px', margin: '0 auto', padding: '0 24px' }}>
                 <style>{`
                     .row-hover:hover {
-                        background: rgba(30, 58, 138, 0.04) !important;
+                        background: rgba(var(--primary-rgb), 0.04) !important;
                     }
                     .row-hover td {
                         transition: all 0.2s;
@@ -231,10 +231,10 @@ export default function NursingPage() {
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '20px', marginBottom: '32px', marginTop: '24px' }} className="mobile-grid-1">
                     {[
                         { label: 'Total Patients', value: stats.total, icon: User, color: 'var(--primary)' },
-                        { label: 'Critical Cases', value: stats.critical, icon: AlertCircle, color: '#ef4444' },
-                        { label: 'Vitals Today', value: stats.vitalsToday, icon: Activity, color: '#3b82f6' },
-                        { label: 'Meds Given', value: stats.medsGiven, icon: Pill, color: '#10b981' },
-                        { label: 'Pending Tasks', value: stats.pendingTasks, icon: ListTodo, color: '#f59e0b' }
+                        { label: 'Critical Cases', value: stats.critical, icon: AlertCircle, color: 'var(--error)' },
+                        { label: 'Vitals Today', value: stats.vitalsToday, icon: Activity, color: 'var(--primary-glow)' },
+                        { label: 'Meds Given', value: stats.medsGiven, icon: Pill, color: 'var(--success)' },
+                        { label: 'Pending Tasks', value: stats.pendingTasks, icon: ListTodo, color: 'var(--warning)' }
                     ].map((stat, i) => (
                         <div key={i} className="glass" style={{ padding: '20px', borderLeft: `4px solid ${stat.color}` }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -307,9 +307,9 @@ export default function NursingPage() {
                                                     style={{
                                                         borderBottom: '1px solid var(--border)',
                                                         cursor: 'pointer',
-                                                        background: selectedPatientId === p.id ? 'var(--primary)08' : 'transparent',
+                                                        background: selectedPatientId === p.id ? 'rgba(var(--primary-rgb), 0.08)' : 'transparent',
                                                         transition: 'background 0.2s',
-                                                        borderLeft: p.nursingPriority === 'Emergency' ? '3px solid #ef4444' : 'none'
+                                                        borderLeft: p.nursingPriority === 'Emergency' ? '3px solid var(--error)' : 'none'
                                                     }}
                                                     className="row-hover"
                                                 >
@@ -376,7 +376,7 @@ export default function NursingPage() {
                         ) : (
                             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                                 {/* Patient Detail Header */}
-                                <div className="glass" style={{ padding: '24px', background: 'linear-gradient(to right, var(--primary)10, transparent)' }}>
+                                <div className="glass" style={{ padding: '24px', background: 'linear-gradient(to right, rgba(var(--primary-rgb), 0.1), transparent)' }}>
                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                                         <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
                                             <div style={{ width: '56px', height: '56px', borderRadius: '14px', background: 'var(--primary)', color: 'white', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -681,12 +681,12 @@ export default function NursingPage() {
 
                     {/* Right Panel: Alerts & Monitoring */}
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '24px', overflowY: 'auto', paddingRight: '4px', width: '300px', flexShrink: 0 }} className="mobile-stack tablet-stack">
-                        <div className="glass mobile-padding" style={{ padding: '20px', borderTop: '4px solid #ef4444' }}>
+                        <div className="glass mobile-padding" style={{ padding: '20px', borderTop: '4px solid var(--error)' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                                <h3 style={{ fontSize: '0.9rem', fontWeight: '800', color: '#ef4444', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <Zap size={18} fill="#ef4444" /> WARD ALERTS
+                                <h3 style={{ fontSize: '0.9rem', fontWeight: '800', color: 'var(--error)', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <Zap size={18} fill="var(--error)" /> WARD ALERTS
                                 </h3>
-                                <span style={{ padding: '2px 8px', borderRadius: '20px', background: '#ef444420', color: '#ef4444', fontSize: '0.65rem', fontWeight: '800' }}>
+                                <span style={{ padding: '2px 8px', borderRadius: '20px', background: 'var(--error-bg)', color: 'var(--error)', fontSize: '0.65rem', fontWeight: '800' }}>
                                     {alerts.length} ACTIVE
                                 </span>
                             </div>
@@ -702,19 +702,19 @@ export default function NursingPage() {
                                                 exit={{ opacity: 0, x: -20 }}
                                                 onClick={() => setSelectedPatientId(a.patientId)}
                                                 style={{
-                                                    padding: '12px', borderRadius: '12px', background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.2)',
+                                                    padding: '12px', borderRadius: '12px', background: 'var(--error-bg)', border: '1px solid var(--error)',
                                                     display: 'flex', gap: '12px', cursor: 'pointer', position: 'relative', overflow: 'hidden'
                                                 }}
                                                 className="card-hover"
                                             >
-                                                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '4px', background: '#ef4444' }} />
-                                                <AlertCircle size={20} color="#ef4444" style={{ flexShrink: 0, marginTop: '2px' }} />
+                                                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '4px', background: 'var(--error)' }} />
+                                                <AlertCircle size={20} color="var(--error)" style={{ flexShrink: 0, marginTop: '2px' }} />
                                                 <div style={{ flex: 1 }}>
                                                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
                                                         <p style={{ fontSize: '0.85rem', fontWeight: '800', color: 'var(--text-main)' }}>{p?.name}</p>
                                                         <ChevronRight size={14} color="var(--text-muted)" />
                                                     </div>
-                                                    <p style={{ fontSize: '0.75rem', color: '#ef4444', fontWeight: '700' }}>
+                                                    <p style={{ fontSize: '0.75rem', color: 'var(--error)', fontWeight: '700' }}>
                                                         {a.temperature > 39 ? `TEMP ${a.temperature}°C ` : ''}
                                                         {a.oxygenSaturation < 92 ? `SPO2 ${a.oxygenSaturation}% ` : ''}
                                                         {a.pulse > 120 ? `PULSE ${a.pulse}BPM ` : ''}
@@ -724,7 +724,7 @@ export default function NursingPage() {
                                                         <motion.span
                                                             animate={{ opacity: [0.4, 1, 0.4] }}
                                                             transition={{ repeat: Infinity, duration: 1.5 }}
-                                                            style={{ fontSize: '0.65rem', color: '#ef4444', fontWeight: '900' }}
+                                                            style={{ fontSize: '0.65rem', color: 'var(--error)', fontWeight: '900' }}
                                                         >
                                                             LIVE
                                                         </motion.span>
@@ -763,7 +763,7 @@ export default function NursingPage() {
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
                                                 boxShadow: 'var(--shadow)'
                                             }}>
-                                                <item.icon size={14} color={item.type === 'doctor' ? '#3b82f6' : '#10b981'} />
+                                                <item.icon size={14} color={item.type === 'doctor' ? 'var(--primary)' : 'var(--success)'} />
                                             </div>
                                             <div style={{ flex: 1 }}>
                                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2px' }}>
@@ -772,8 +772,8 @@ export default function NursingPage() {
                                                     </p>
                                                     <span style={{
                                                         fontSize: '0.55rem', padding: '2px 6px', borderRadius: '4px',
-                                                        background: item.type === 'doctor' ? '#3b82f615' : '#10b98115',
-                                                        color: item.type === 'doctor' ? '#3b82f6' : '#10b981',
+                                                        background: item.type === 'doctor' ? 'rgba(var(--primary-rgb), 0.15)' : 'var(--success-bg)',
+                                                        color: item.type === 'doctor' ? 'var(--primary)' : 'var(--success)',
                                                         fontWeight: '800'
                                                     }}>
                                                         {item.type.toUpperCase()}

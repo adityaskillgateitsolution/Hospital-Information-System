@@ -281,21 +281,21 @@ export default function DoctorPage() {
                             <TrendingUp size={18} color="var(--primary)" /> Morning Stats
                         </h3>
                         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                            <div style={{ background: 'var(--primary)10', padding: '12px', borderRadius: '12px', border: '1px solid var(--primary)20' }}>
+                            <div style={{ background: 'rgba(var(--primary-rgb), 0.1)', padding: '12px', borderRadius: '12px', border: '1px solid rgba(var(--primary-rgb), 0.2)' }}>
                                 <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '600' }}>TOTAL</p>
                                 <p style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--primary)' }}>{stats.total}</p>
                             </div>
-                            <div style={{ background: '#10b98110', padding: '12px', borderRadius: '12px', border: '1px solid #10b98120' }}>
+                            <div style={{ background: 'var(--success-bg)', padding: '12px', borderRadius: '12px', border: '1px solid var(--success)' }}>
                                 <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '600' }}>DONE</p>
-                                <p style={{ fontSize: '1.25rem', fontWeight: '900', color: '#10b981' }}>{stats.completed}</p>
+                                <p style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--success)' }}>{stats.completed}</p>
                             </div>
-                            <div style={{ background: '#f59e0b10', padding: '12px', borderRadius: '12px', border: '1px solid #f59e0b20' }}>
+                            <div style={{ background: 'var(--warning-bg)', padding: '12px', borderRadius: '12px', border: '1px solid var(--warning)' }}>
                                 <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '600' }}>PENDING</p>
-                                <p style={{ fontSize: '1.25rem', fontWeight: '900', color: '#f59e0b' }}>{stats.pending}</p>
+                                <p style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--warning)' }}>{stats.pending}</p>
                             </div>
-                            <div style={{ background: '#ef444410', padding: '12px', borderRadius: '12px', border: '1px solid #ef444420' }}>
+                            <div style={{ background: 'var(--error-bg)', padding: '12px', borderRadius: '12px', border: '1px solid var(--error)' }}>
                                 <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', fontWeight: '600' }}>URGENT</p>
-                                <p style={{ fontSize: '1.25rem', fontWeight: '900', color: '#ef4444' }}>{stats.emergency}</p>
+                                <p style={{ fontSize: '1.25rem', fontWeight: '900', color: 'var(--error)' }}>{stats.emergency}</p>
                             </div>
                         </div>
                     </div>
@@ -369,7 +369,7 @@ export default function DoctorPage() {
                                             whileHover={{ x: 4 }}
                                             style={{
                                                 padding: '14px',
-                                                background: selectedAppointmentId === app.id ? 'var(--primary)08' : 'var(--background)',
+                                                background: selectedAppointmentId === app.id ? 'rgba(var(--primary-rgb), 0.08)' : 'var(--background)',
                                                 borderRadius: '12px',
                                                 cursor: 'pointer',
                                                 border: selectedAppointmentId === app.id ? '2px solid var(--primary)' : '1px solid var(--border)',
@@ -378,16 +378,16 @@ export default function DoctorPage() {
                                             }}
                                         >
                                             {app.priority === 'Emergency' && (
-                                                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '4px', background: '#ef4444' }} />
+                                                <div style={{ position: 'absolute', top: 0, left: 0, bottom: 0, width: '4px', background: 'var(--error)' }} />
                                             )}
                                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '4px' }}>
-                                                <span style={{ fontSize: '0.7rem', fontWeight: '800', color: 'var(--primary)', background: 'var(--primary)15', padding: '2px 8px', borderRadius: '4px' }}>
+                                                <span style={{ fontSize: '0.7rem', fontWeight: '800', color: 'var(--primary)', background: 'rgba(var(--primary-rgb), 0.15)', padding: '2px 8px', borderRadius: '4px' }}>
                                                     TOKEN #{app.tokenNumber}
                                                 </span>
                                                 <span style={{
                                                     fontSize: '0.65rem',
                                                     fontWeight: '700',
-                                                    color: app.priority === 'Emergency' ? '#ef4444' : app.priority === 'Urgent' ? '#f59e0b' : 'var(--text-muted)',
+                                                    color: app.priority === 'Emergency' ? 'var(--error)' : app.priority === 'Urgent' ? 'var(--warning)' : 'var(--text-muted)',
                                                     display: 'flex',
                                                     alignItems: 'center',
                                                     gap: '4px'
@@ -446,7 +446,7 @@ export default function DoctorPage() {
                             {/* Patient Summary Header */}
                             <div className="glass" style={{ padding: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <div style={{ display: 'flex', gap: '20px', alignItems: 'center' }}>
-                                    <div style={{ width: '64px', height: '64px', background: 'var(--primary)15', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
+                                    <div style={{ width: '64px', height: '64px', background: 'rgba(var(--primary-rgb), 0.15)', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
                                         <User size={32} />
                                     </div>
                                     <div>
@@ -457,7 +457,7 @@ export default function DoctorPage() {
                                             </span>
                                         </div>
                                         <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-                                            {currentPatient?.age} yrs • {currentPatient?.gender} • Blood Group: <span style={{ color: '#ef4444', fontWeight: '700' }}>{currentPatient?.bloodGroup}</span>
+                                            {currentPatient?.age} yrs • {currentPatient?.gender} • Blood Group: <span style={{ color: 'var(--error)', fontWeight: '700' }}>{currentPatient?.bloodGroup}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -468,7 +468,7 @@ export default function DoctorPage() {
                                         style={{
                                             padding: '12px 20px',
                                             borderRadius: '12px',
-                                            background: currentPatient?.type === 'IP' ? 'var(--border)' : 'var(--primary)15',
+                                            background: currentPatient?.type === 'IP' ? 'var(--border)' : 'rgba(var(--primary-rgb), 0.15)',
                                             color: currentPatient?.type === 'IP' ? 'var(--text-muted)' : 'var(--primary)',
                                             fontWeight: '700',
                                             display: 'flex',
@@ -484,14 +484,14 @@ export default function DoctorPage() {
                             </div>
 
                             {/* Current Vitals Section */}
-                            <div className="glass" style={{ padding: '20px', background: 'var(--primary)03', border: '1px solid var(--primary)15' }}>
+                            <div className="glass" style={{ padding: '20px', background: 'rgba(var(--primary-rgb), 0.03)', border: '1px solid rgba(var(--primary-rgb), 0.15)' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
                                     <h3 style={{ fontSize: '0.9rem', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                         <Activity size={18} color="var(--primary)" /> Triage Vitals
                                     </h3>
                                     <span style={{
                                         fontSize: '0.75rem',
-                                        color: isVitalsStale ? '#ef4444' : 'var(--text-muted)',
+                                        color: isVitalsStale ? 'var(--error)' : 'var(--text-muted)',
                                         display: 'flex',
                                         alignItems: 'center',
                                         gap: '4px',
@@ -683,7 +683,7 @@ export default function DoctorPage() {
                                         />
                                         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginTop: '12px' }}>
                                             {labTests.map(t => (
-                                                <span key={t} style={{ background: '#8b5cf615', color: '#8b5cf6', padding: '4px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                <span key={t} style={{ background: 'rgba(139, 92, 246, 0.15)', color: '#8b5cf6', padding: '4px 10px', borderRadius: '20px', fontSize: '0.75rem', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '4px' }}>
                                                     {t} <Trash2 size={12} onClick={() => setLabTests(labTests.filter(lab => lab !== t))} style={{ cursor: 'pointer' }} />
                                                 </span>
                                             ))}
@@ -736,7 +736,7 @@ export default function DoctorPage() {
                                     </button>
                                     <button
                                         type="submit"
-                                        style={{ background: 'var(--primary)', color: 'white', border: 'none', cursor: 'pointer', padding: '16px 60px', borderRadius: '12px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 20px var(--primary)30' }}
+                                        style={{ background: 'var(--primary)', color: 'white', border: 'none', cursor: 'pointer', padding: '16px 60px', borderRadius: '12px', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 20px rgba(var(--primary-rgb), 0.3)' }}
                                     >
                                         <CheckCircle2 size={24} /> Complete Consultation
                                     </button>
@@ -773,11 +773,11 @@ export default function DoctorPage() {
                                         {/* Billing Alerts */}
                                         {patientInvoices.filter(i => i.status === 'Unpaid').map(inv => (
                                             <div key={inv.id} style={{ position: 'relative', paddingLeft: '32px' }}>
-                                                <div style={{ position: 'absolute', left: '0', top: '4px', width: '24px', height: '24px', background: '#ef4444', borderRadius: '50%', border: '4px solid var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                                                <div style={{ position: 'absolute', left: '0', top: '4px', width: '24px', height: '24px', background: 'var(--error)', borderRadius: '50%', border: '4px solid var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                                     <FileText size={10} />
                                                 </div>
-                                                <div style={{ background: '#ef444405', padding: '12px', borderRadius: '12px', border: '1px solid #ef444420' }}>
-                                                    <p style={{ fontSize: '0.7rem', color: '#ef4444', fontWeight: '800' }}>UNPAID INVOICE</p>
+                                                <div style={{ background: 'var(--error-bg)', padding: '12px', borderRadius: '12px', border: '1px solid var(--error)' }}>
+                                                    <p style={{ fontSize: '0.7rem', color: 'var(--error)', fontWeight: '800' }}>UNPAID INVOICE</p>
                                                     <p style={{ fontSize: '0.85rem', fontWeight: '700' }}>Amount Due: ₹{inv.finalAmount}</p>
                                                     <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{new Date(inv.date).toLocaleDateString()}</p>
                                                 </div>
@@ -801,11 +801,11 @@ export default function DoctorPage() {
                                         {/* Medication Logs */}
                                         {patientMedLogs.slice().reverse().map(log => (
                                             <div key={log.id} style={{ position: 'relative', paddingLeft: '32px' }}>
-                                                <div style={{ position: 'absolute', left: '0', top: '4px', width: '24px', height: '24px', background: '#10b981', borderRadius: '50%', border: '4px solid var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                                                <div style={{ position: 'absolute', left: '0', top: '4px', width: '24px', height: '24px', background: 'var(--success)', borderRadius: '50%', border: '4px solid var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                                     <Pill size={10} />
                                                 </div>
-                                                <div style={{ background: '#10b98105', padding: '12px', borderRadius: '12px', border: '1px solid #10b98120' }}>
-                                                    <p style={{ fontSize: '0.7rem', color: '#10b981', fontWeight: '800' }}>MEDICATION {log.status}</p>
+                                                <div style={{ background: 'var(--success-bg)', padding: '12px', borderRadius: '12px', border: '1px solid var(--success)' }}>
+                                                    <p style={{ fontSize: '0.7rem', color: 'var(--success)', fontWeight: '800' }}>MEDICATION {log.status}</p>
                                                     <p style={{ fontSize: '0.85rem', fontWeight: '700' }}>{log.medicineName} ({log.dosage})</p>
                                                     <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{log.timestamp}</p>
                                                 </div>
@@ -815,11 +815,11 @@ export default function DoctorPage() {
                                         {/* Nursing Notes */}
                                         {patientNursingNotes.slice().reverse().map(note => (
                                             <div key={note.id} style={{ position: 'relative', paddingLeft: '32px' }}>
-                                                <div style={{ position: 'absolute', left: '0', top: '4px', width: '24px', height: '24px', background: '#f59e0b', borderRadius: '50%', border: '4px solid var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
+                                                <div style={{ position: 'absolute', left: '0', top: '4px', width: '24px', height: '24px', background: 'var(--warning)', borderRadius: '50%', border: '4px solid var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                                     <Clipboard size={10} />
                                                 </div>
-                                                <div style={{ background: '#f59e0b05', padding: '12px', borderRadius: '12px', border: '1px solid #f59e0b20' }}>
-                                                    <p style={{ fontSize: '0.7rem', color: '#f59e0b', fontWeight: '800' }}>NURSING NOTE</p>
+                                                <div style={{ background: 'var(--warning-bg)', padding: '12px', borderRadius: '12px', border: '1px solid var(--warning)' }}>
+                                                    <p style={{ fontSize: '0.7rem', color: 'var(--warning)', fontWeight: '800' }}>NURSING NOTE</p>
                                                     <p style={{ fontSize: '0.85rem', fontWeight: '600' }}>{note.note}</p>
                                                     <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{note.timestamp}</p>
                                                 </div>
@@ -832,7 +832,7 @@ export default function DoctorPage() {
                                                 <div style={{ position: 'absolute', left: '0', top: '4px', width: '24px', height: '24px', background: 'var(--primary)', borderRadius: '50%', border: '4px solid var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                                     <Stethoscope size={10} />
                                                 </div>
-                                                <div style={{ background: 'var(--primary)05', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                                                <div style={{ background: 'rgba(var(--primary-rgb), 0.05)', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)' }}>
                                                     <p style={{ fontSize: '0.7rem', color: 'var(--primary)', fontWeight: '800' }}>CONSULTATION</p>
                                                     <p style={{ fontSize: '0.85rem', fontWeight: '800' }}>{cons.diagnosis}</p>
                                                     {cons.prescription.length > 0 && (
@@ -849,10 +849,10 @@ export default function DoctorPage() {
                                                 <div style={{ position: 'absolute', left: '0', top: '4px', width: '24px', height: '24px', background: '#8b5cf6', borderRadius: '50%', border: '4px solid var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white' }}>
                                                     <Activity size={10} />
                                                 </div>
-                                                <div style={{ background: '#8b5cf605', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                                                <div style={{ background: 'rgba(139, 92, 246, 0.05)', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)' }}>
                                                     <p style={{ fontSize: '0.7rem', color: '#8b5cf6', fontWeight: '800' }}>DIAGNOSTIC</p>
                                                     <p style={{ fontSize: '0.85rem', fontWeight: '700' }}>{rep.testName}</p>
-                                                    <p style={{ fontSize: '0.75rem', fontWeight: '600', color: rep.status === 'Ready' ? '#10b981' : '#f59e0b' }}>
+                                                    <p style={{ fontSize: '0.75rem', fontWeight: '600', color: rep.status === 'Ready' ? 'var(--success)' : 'var(--warning)' }}>
                                                         Status: {rep.status}
                                                     </p>
                                                     <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)' }}>{new Date(rep.date).toLocaleDateString()}</p>
@@ -865,14 +865,14 @@ export default function DoctorPage() {
                                             <div key={task.id} style={{ position: 'relative', paddingLeft: '32px' }}>
                                                 <div style={{
                                                     position: 'absolute', left: '0', top: '4px', width: '24px', height: '24px',
-                                                    background: task.status === 'Completed' ? '#10b981' : '#64748b',
+                                                    background: task.status === 'Completed' ? 'var(--success)' : 'var(--text-muted)',
                                                     borderRadius: '50%', border: '4px solid var(--background)',
                                                     display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white'
                                                 }}>
                                                     <CheckSquare size={10} />
                                                 </div>
-                                                <div style={{ background: task.status === 'Completed' ? '#10b98105' : '#64748b05', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)' }}>
-                                                    <p style={{ fontSize: '0.7rem', color: task.status === 'Completed' ? '#10b981' : '#64748b', fontWeight: '800' }}>NURSING TASK {task.status.toUpperCase()}</p>
+                                                <div style={{ background: task.status === 'Completed' ? 'var(--success-bg)' : 'rgba(var(--text-muted-rgb), 0.05)', padding: '12px', borderRadius: '12px', border: '1px solid var(--border)' }}>
+                                                    <p style={{ fontSize: '0.7rem', color: task.status === 'Completed' ? 'var(--success)' : 'var(--text-muted)', fontWeight: '800' }}>NURSING TASK {task.status.toUpperCase()}</p>
                                                     <p style={{ fontSize: '0.85rem', fontWeight: '700' }}>{task.taskName}</p>
                                                     <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{task.description}</p>
                                                     <p style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: '4px' }}>Due: {task.time}</p>
@@ -891,15 +891,15 @@ export default function DoctorPage() {
 
                                 {/* Allergies & Alerts */}
                                 <section style={{ marginTop: '12px' }}>
-                                    <h4 style={{ fontSize: '0.8rem', fontWeight: '800', color: '#ef4444', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                    <h4 style={{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--error)', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                                         CRITICAL ALERTS <AlertCircle size={12} />
                                     </h4>
                                     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                                        <div style={{ background: '#ef444408', padding: '14px', borderRadius: '12px', border: '1px dashed #ef444430' }}>
-                                            <p style={{ fontSize: '0.7rem', color: '#ef4444', fontWeight: '800', marginBottom: '4px' }}>KNOWN ALLERGIES</p>
+                                        <div style={{ background: 'rgba(239, 68, 68, 0.08)', padding: '14px', borderRadius: '12px', border: '1px dashed rgba(239, 68, 68, 0.3)' }}>
+                                            <p style={{ fontSize: '0.7rem', color: 'var(--error)', fontWeight: '800', marginBottom: '4px' }}>KNOWN ALLERGIES</p>
                                             {currentPatient?.allergies && currentPatient.allergies.length > 0 ? (
                                                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                                                    {currentPatient.allergies.map(a => <span key={a} style={{ background: '#ef444415', color: '#ef4444', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '700' }}>{a}</span>)}
+                                                    {currentPatient.allergies.map(a => <span key={a} style={{ background: 'var(--error-bg)', color: 'var(--error)', padding: '2px 8px', borderRadius: '4px', fontSize: '0.75rem', fontWeight: '700' }}>{a}</span>)}
                                                 </div>
                                             ) : (
                                                 <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>NKDA (No Known Drug Allergies)</p>

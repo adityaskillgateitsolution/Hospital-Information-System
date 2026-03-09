@@ -1,7 +1,9 @@
 :root {
   --primary: #1e3a8a;
+  --primary-rgb: 30, 58, 138;
   --primary-glow: #3b82f6;
   --accent: #0d9488;
+  --accent-rgb: 13, 148, 136;
   --background: #f8fafc;
   --card-bg: rgba(255, 255, 255, 0.8);
   --text-main: #1e293b;
@@ -10,18 +12,40 @@
   --radius: 16px;
   --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Semantic Status Colors */
+  --success: #166534;
+  --success-bg: #dcfce7;
+  --error: #991b1b;
+  --error-bg: #fee2e2;
+  --warning: #854d0e;
+  --warning-bg: #fef9c3;
+  --pending: #92400e;
+  --pending-bg: #fef3c7;
 }
 
 [data-theme='dark'] {
   --primary: #60a5fa;
+  --primary-rgb: 96, 165, 250;
   --primary-glow: #1e40af;
   --accent: #2dd4bf;
+  --accent-rgb: 45, 212, 191;
   --background: #0f172a;
   --card-bg: rgba(30, 41, 59, 0.7);
   --text-main: #f1f5f9;
   --text-muted: #94a3b8;
   --border: #334155;
   --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.3);
+
+  /* Semantic Status Colors (Dark) */
+  --success: #4ade80;
+  --success-bg: rgba(6, 78, 59, 0.5);
+  --error: #f87171;
+  --error-bg: rgba(127, 29, 29, 0.5);
+  --warning: #fbbf24;
+  --warning-bg: rgba(120, 53, 15, 0.5);
+  --pending: #fbbf24;
+  --pending-bg: rgba(146, 64, 14, 0.5);
 }
 
 * {

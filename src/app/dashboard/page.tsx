@@ -18,6 +18,14 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import { useHISStore } from '@/store/hisStore';
 
+// Helper to handle hex transparency safely for both light and dark modes
+const hexToRGBA = (hex: string, opacity: number) => {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+};
+
 const modules = [
     {
         title: 'Book an Appointment',
@@ -116,7 +124,7 @@ export default function Dashboard() {
                                 <div style={{
                                     width: '48px',
                                     height: '48px',
-                                    background: s.color + '15',
+                                    background: hexToRGBA(s.color, 0.15),
                                     borderRadius: '12px',
                                     display: 'flex',
                                     alignItems: 'center',
@@ -164,7 +172,7 @@ export default function Dashboard() {
                             <div style={{
                                 width: '56px',
                                 height: '56px',
-                                background: mod.color + '15',
+                                background: hexToRGBA(mod.color, 0.15),
                                 borderRadius: '14px',
                                 display: 'flex',
                                 alignItems: 'center',
@@ -200,7 +208,7 @@ export default function Dashboard() {
                                 right: 0,
                                 width: '80px',
                                 height: '80px',
-                                background: `radial-gradient(circle at top right, ${mod.color}10, transparent)`,
+                                background: `radial-gradient(circle at top right, ${hexToRGBA(mod.color, 0.1)}, transparent)`,
                                 zIndex: -1
                             }} />
                         </motion.div>
