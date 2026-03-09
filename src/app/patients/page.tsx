@@ -110,13 +110,16 @@ export default function PatientsPage() {
                 address,
                 type: patientType,
                 medicalHistory: [],
+                allergies: [],
                 visitHistory: [],
                 temperature,
                 weight,
                 bloodPressure,
                 admissionCause,
                 diseases,
-                registrationDate: new Date().toISOString()
+                registrationDate: new Date().toISOString(),
+                nursingStatus: 'Waiting',
+                nursingPriority: 'Normal'
             };
             addPatient(newPatient);
 
@@ -218,8 +221,8 @@ export default function PatientsPage() {
         <div style={{ minHeight: '100vh', paddingBottom: '40px' }}>
             <Navbar />
 
-            <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
+            <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }} className="mobile-padding">
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }} className="mobile-stack">
                     <div>
                         <h1 style={{ fontSize: '1.75rem', fontWeight: '800' }}>Patient Records</h1>
                         <p style={{ color: 'var(--text-muted)' }}>Manage and view patient medical information.</p>
@@ -243,7 +246,7 @@ export default function PatientsPage() {
                 </div>
 
                 {/* Search */}
-                <div className="glass" style={{ padding: '16px', marginBottom: '24px', display: 'flex', gap: '16px' }}>
+                <div className="glass mobile-stack" style={{ padding: '16px', marginBottom: '24px', display: 'flex', gap: '16px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', flex: 1 }}>
                         <Search size={18} color="var(--text-muted)" />
                         <input
@@ -264,9 +267,9 @@ export default function PatientsPage() {
                     </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: selectedPatient ? '1fr 1fr 1.5fr' : '1fr 1fr', gap: '24px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '24px' }} className="mobile-grid-1">
                     {/* Outpatients Column */}
-                    <div>
+                    <div style={{ flex: 1, minWidth: '350px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', padding: '0 8px' }}>
                             <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#3b82f6' }} />
                             <h2 style={{ fontSize: '1.1rem', fontWeight: '700', color: 'var(--text-main)' }}>Outpatients (OP)</h2>
@@ -337,7 +340,7 @@ export default function PatientsPage() {
                     </div>
 
                     {/* Inner Patients Column */}
-                    <div>
+                    <div style={{ flex: 1, minWidth: '350px' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px', padding: '0 8px' }}>
                             <div style={{ width: '12px', height: '12px', borderRadius: '50%', background: '#ef4444' }} />
                             <h2 style={{ fontSize: '1.1rem', fontWeight: '700', color: 'var(--text-main)' }}>Inner Patients (IP)</h2>
@@ -395,8 +398,8 @@ export default function PatientsPage() {
                         <motion.div
                             initial={{ opacity: 0, x: 20 }}
                             animate={{ opacity: 1, x: 0 }}
-                            className="glass"
-                            style={{ padding: '32px', position: 'sticky', top: '100px', height: 'fit-content' }}
+                            className="glass mobile-padding"
+                            style={{ padding: '32px', flex: 1.5, minWidth: '350px', height: 'fit-content' }}
                         >
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '24px' }}>
                                 <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
@@ -486,7 +489,7 @@ export default function PatientsPage() {
                                                 </div>
                                                 <div>
                                                     <p style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '600', marginBottom: '4px' }}>DAILY RATE</p>
-                                                    <p style={{ fontWeight: '800', fontSize: '1.2rem', color: 'var(--primary)' }}>${room.dailyCharge}</p>
+                                                    <p style={{ fontWeight: '800', fontSize: '1.2rem', color: 'var(--primary)' }}>₹{room.dailyCharge}</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -953,7 +956,7 @@ export default function PatientsPage() {
 
                                                             return finalSuggestions.slice(0, 5).map((r: Room) => (
                                                                 <option key={r.id} value={r.id}>
-                                                                    Room {r.roomNumber} - Bed {r.bedNumber} (${r.dailyCharge}/day)
+                                                                    Room {r.roomNumber} - Bed {r.bedNumber} (₹{r.dailyCharge}/day)
                                                                 </option>
                                                             ));
                                                         })()}

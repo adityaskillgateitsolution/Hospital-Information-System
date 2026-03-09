@@ -109,7 +109,7 @@ export default function BillingPage() {
         doc.setFontSize(10);
         doc.setFont('helvetica', 'bold');
         doc.text('Description', margin + 5, 96);
-        doc.text('Amount ($)', 160, 96);
+        doc.text('Amount (₹)', 160, 96);
 
         // Items
         doc.setFont('helvetica', 'normal');
@@ -125,17 +125,17 @@ export default function BillingPage() {
         y += 10;
         doc.line(margin, y - 5, 190, y - 5);
         doc.text('Subtotal:', summaryX, y);
-        doc.text(`$${invoice.total.toFixed(2)}`, 160, y);
+        doc.text(`₹${invoice.total.toFixed(2)}`, 160, y);
 
         y += 8;
         doc.text('Discount:', summaryX, y);
-        doc.text(`-$${invoice.discount.toFixed(2)}`, 160, y);
+        doc.text(`-₹${invoice.discount.toFixed(2)}`, 160, y);
 
         y += 10;
         doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
         doc.text('Total Amount:', summaryX, y);
-        doc.text(`$${invoice.finalAmount.toFixed(2)}`, 160, y);
+        doc.text(`₹${invoice.finalAmount.toFixed(2)}`, 160, y);
 
         // Footer
         doc.setFontSize(10);
@@ -187,7 +187,7 @@ export default function BillingPage() {
                         <div>
                             <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600' }}>TOTAL REVENUE</p>
                             <p style={{ fontSize: '1.5rem', fontWeight: '800' }}>
-                                ${invoices.filter(i => i.status === 'Paid').reduce((acc, curr) => acc + curr.finalAmount, 0).toFixed(2)}
+                                ₹{invoices.filter(i => i.status === 'Paid').reduce((acc, curr) => acc + curr.finalAmount, 0).toFixed(2)}
                             </p>
                         </div>
                     </div>
@@ -198,7 +198,7 @@ export default function BillingPage() {
                         <div>
                             <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600' }}>UNPAID AMOUNT</p>
                             <p style={{ fontSize: '1.5rem', fontWeight: '800' }}>
-                                ${invoices.filter(i => i.status === 'Unpaid').reduce((acc, curr) => acc + curr.finalAmount, 0).toFixed(2)}
+                                ₹{invoices.filter(i => i.status === 'Unpaid').reduce((acc, curr) => acc + curr.finalAmount, 0).toFixed(2)}
                             </p>
                         </div>
                     </div>
@@ -255,7 +255,7 @@ export default function BillingPage() {
                                             <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>{inv.patientId}</div>
                                         </td>
                                         <td style={{ padding: '16px 24px', fontSize: '0.9rem' }}>{inv.date}</td>
-                                        <td style={{ padding: '16px 24px', fontWeight: '700' }}>${inv.finalAmount.toFixed(2)}</td>
+                                        <td style={{ padding: '16px 24px', fontWeight: '700' }}>₹{inv.finalAmount.toFixed(2)}</td>
                                         <td style={{ padding: '16px 24px' }}>
                                             <span style={{
                                                 padding: '4px 12px',
@@ -356,7 +356,7 @@ export default function BillingPage() {
                                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '40px' }}>
                                     <div>
                                         <label style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem', fontWeight: '600', marginBottom: '8px' }}>
-                                            <Percent size={14} /> Applied Discount ($)
+                                            <Percent size={14} /> Applied Discount (₹)
                                         </label>
                                         <input
                                             type="number"
@@ -369,15 +369,15 @@ export default function BillingPage() {
                                     <div className="glass" style={{ padding: '16px', borderRadius: '12px', background: 'var(--primary)05' }}>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', fontSize: '0.9rem' }}>
                                             <span>Subtotal:</span>
-                                            <span style={{ fontWeight: '700' }}>${subtotal.toFixed(2)}</span>
+                                            <span style={{ fontWeight: '700' }}>₹{subtotal.toFixed(2)}</span>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', fontSize: '0.9rem', color: '#ef4444' }}>
                                             <span>Discount:</span>
-                                            <span>-${discount.toFixed(2)}</span>
+                                            <span>-₹{discount.toFixed(2)}</span>
                                         </div>
                                         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '1.25rem', fontWeight: '800', color: 'var(--primary)' }}>
                                             <span>Total:</span>
-                                            <span>${total.toFixed(2)}</span>
+                                            <span>₹{total.toFixed(2)}</span>
                                         </div>
                                     </div>
                                 </div>

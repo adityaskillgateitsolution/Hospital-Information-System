@@ -1,12 +1,14 @@
 'use client';
 
 import { useHISStore } from '@/store/hisStore';
-import { LogOut, Sun, Moon, Activity, User } from 'lucide-react';
+import { LogOut, Sun, Moon, Activity, User, Menu, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 export default function Navbar() {
     const { darkMode, toggleDarkMode, logout, user } = useHISStore();
     const router = useRouter();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -31,7 +33,10 @@ export default function Navbar() {
             borderRadius: '16px'
         }}>
             <div
-                onClick={() => router.push('/dashboard')}
+                onClick={() => {
+                    router.push('/dashboard');
+                    setIsMenuOpen(false);
+                }}
                 style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
             >
                 <div style={{
@@ -45,7 +50,23 @@ export default function Navbar() {
                 <span style={{ fontWeight: '700', fontSize: '1.25rem', color: 'var(--primary)' }}>MediSync</span>
             </div>
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+            {/* Mobile Toggle */}
+            <button
+                className="tablet-show mobile-show"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                style={{ color: 'var(--text-main)', padding: '8px' }}
+            >
+                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+
+            <div
+                className={`${isMenuOpen ? 'mobile-menu-open' : 'mobile-hide'}`}
+                style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '20px'
+                }}
+            >
                 <button
                     onClick={handleToggleTheme}
                     style={{
@@ -71,7 +92,7 @@ export default function Navbar() {
                     border: '1px solid var(--border)'
                 }}>
                     <User size={18} color="var(--primary)" />
-                    <span style={{ fontWeight: '600', fontSize: '0.875rem' }}>{user?.username || 'Admin'}</span>
+                    <span style={{ fontWeight: '600', fontSize: '0.875rem' }} className="mobile-hide">{user?.username || 'Admin'}</span>
                     <span style={{
                         fontSize: '0.75rem',
                         background: 'var(--accent)',
@@ -94,7 +115,7 @@ export default function Navbar() {
                     className="card-hover"
                 >
                     <LogOut size={18} />
-                    Logout
+                    <span className="mobile-hide">Logout</span>
                 </button>
             </div>
         </nav>

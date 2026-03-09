@@ -11,6 +11,8 @@ export interface Patient {
     address: string;
     type: 'OP' | 'IP';
     medicalHistory: string[];
+    allergies: string[];
+    surgeries?: string[];
     visitHistory: { date: string; reason: string; notes: string }[];
     // Clinical Vitals & Info
     temperature?: string;
@@ -20,6 +22,8 @@ export interface Patient {
     diseases?: string;
     tokenNumber?: number;
     registrationDate: string;
+    nursingStatus: 'Stable' | 'Observation' | 'Waiting' | 'Critical' | 'Discharged';
+    nursingPriority: 'Normal' | 'Urgent' | 'Emergency';
 }
 
 export interface Appointment {
@@ -49,20 +53,62 @@ export interface Appointment {
 }
 
 export interface Vitals {
+    id: string;
     patientId: string;
     bloodPressure: string;
     pulse: number;
     temperature: number;
+    oxygenSaturation: number;
+    respiratoryRate: number;
+    weight: number;
     recordedAt: string;
+}
+
+export interface NursingNote {
+    id: string;
+    patientId: string;
+    note: string;
+    nurseName: string;
+    timestamp: string;
+}
+
+export interface NursingTask {
+    id: string;
+    patientId: string;
+    taskName: string;
+    description?: string;
+    time: string;
+    status: 'Pending' | 'Completed';
+    priority: 'Normal' | 'Urgent' | 'Emergency';
+}
+
+export interface MedicationLog {
+    id: string;
+    patientId: string;
+    medicineName: string;
+    dosage: string;
+    status: 'Given' | 'Skipped';
+    note?: string;
+    timestamp: string;
 }
 
 export interface Consultation {
     id: string;
     appointmentId: string;
     patientId: string;
+    symptoms: string;
+    observation: string;
     diagnosis: string;
-    prescription: { medicine: string; dosage: string; frequency: string }[];
+    treatmentPlan: string;
+    prescription: {
+        medicine: string;
+        dosage: string;
+        frequency: string;
+        duration: string;
+        instructions: string;
+    }[];
     labTests: string[];
+    nursingInstructions?: string;
     followUpDate?: string;
     date: string;
 }
@@ -128,7 +174,14 @@ interface HISState {
 
     // Vitals & Nursing
     vitals: Vitals[];
+    nursingNotes: NursingNote[];
+    nursingTasks: NursingTask[];
+    medicationLogs: MedicationLog[];
     addVitals: (vitals: Vitals) => void;
+    addNursingNote: (note: NursingNote) => void;
+    addNursingTask: (task: NursingTask) => void;
+    updateNursingTaskStatus: (taskId: string, status: 'Pending' | 'Completed') => void;
+    logMedication: (log: MedicationLog) => void;
 
     // Consultations
     consultations: Consultation[];
@@ -250,7 +303,10 @@ export const useHISStore = create<HISState>()(
                                 gender: appointment.gender || p.gender,
                                 bloodGroup: appointment.bloodGroup || p.bloodGroup,
                                 address: appointment.address || p.address,
-                                type: appointment.patientType || p.type
+                                type: appointment.patientType || p.type,
+                                // Sync Nursing Status/Priority
+                                nursingStatus: appointment.status === 'Emergency' ? 'Critical' : (appointment.status === 'Checked-in' || appointment.status === 'Waiting') ? 'Waiting' : p.nursingStatus,
+                                nursingPriority: appointment.priority || p.nursingPriority
                             }
                             : p
                     );
@@ -268,8 +324,11 @@ export const useHISStore = create<HISState>()(
                         address: appointment.address || '',
                         type: appointment.patientType || 'OP',
                         medicalHistory: [],
+                        allergies: [],
                         visitHistory: [visitEntry],
-                        registrationDate: new Date().toISOString()
+                        registrationDate: new Date().toISOString(),
+                        nursingStatus: appointment.status === 'Emergency' ? 'Critical' : (appointment.status === 'Checked-in' || appointment.status === 'Waiting') ? 'Waiting' : 'Waiting',
+                        nursingPriority: appointment.priority || 'Normal'
                     };
                     updatedPatients.push(newPatient);
                 }
@@ -281,19 +340,48 @@ export const useHISStore = create<HISState>()(
                 };
             }),
             updateAppointment: (id, updates) =>
-                set((state) => ({
-                    appointments: state.appointments.map((a) =>
-                        a.id === id ? { ...a, ...updates, updatedAt: new Date().toISOString() } : a
-                    ),
-                })),
+                set((state) => {
+                    const appointment = state.appointments.find(a => a.id === id);
+                    const patientId = appointment?.patientId;
+
+                    let updatedPatients = state.patients;
+                    if (patientId && (updates.status || updates.priority)) {
+                        updatedPatients = state.patients.map(p => p.id === patientId ? {
+                            ...p,
+                            nursingStatus: updates.status === 'Emergency' ? 'Critical' : (updates.status === 'Checked-in' || updates.status === 'Waiting') ? 'Waiting' : p.nursingStatus,
+                            nursingPriority: updates.priority || p.nursingPriority
+                        } : p);
+                    }
+
+                    return {
+                        appointments: state.appointments.map((a) =>
+                            a.id === id ? { ...a, ...updates, updatedAt: new Date().toISOString() } : a
+                        ),
+                        patients: updatedPatients
+                    };
+                }),
             deleteAppointment: (id) =>
                 set((state) => ({
                     appointments: state.appointments.filter((a) => a.id !== id),
                 })),
             updateAppointmentStatus: (id, status) =>
-                set((state) => ({
-                    appointments: state.appointments.map((a) => (a.id === id ? { ...a, status, updatedAt: new Date().toISOString() } : a)),
-                })),
+                set((state) => {
+                    const appointment = state.appointments.find(a => a.id === id);
+                    const patientId = appointment?.patientId;
+
+                    let updatedPatients = state.patients;
+                    if (patientId) {
+                        updatedPatients = state.patients.map(p => p.id === patientId ? {
+                            ...p,
+                            nursingStatus: status === 'Emergency' ? 'Critical' : (status === 'Checked-in' || status === 'Waiting') ? 'Waiting' : p.nursingStatus
+                        } : p);
+                    }
+
+                    return {
+                        appointments: state.appointments.map((a) => (a.id === id ? { ...a, status, updatedAt: new Date().toISOString() } : a)),
+                        patients: updatedPatients
+                    };
+                }),
 
             // Rooms & Admissions Initial State
             rooms: [
@@ -342,7 +430,8 @@ export const useHISStore = create<HISState>()(
                 };
                 return {
                     admissions: [...state.admissions, newAdmission],
-                    rooms: state.rooms.map(r => r.id === roomId ? { ...r, status: 'Occupied' } : r)
+                    rooms: state.rooms.map(r => r.id === roomId ? { ...r, status: 'Occupied' } : r),
+                    patients: state.patients.map(p => p.id === patientId ? { ...p, nursingStatus: 'Stable', type: 'IP' } : p)
                 };
             }),
             dischargePatient: (admissionId) => set((state) => {
@@ -376,9 +465,21 @@ export const useHISStore = create<HISState>()(
                 };
             }),
 
-            // Vitals Initial State
+            // Vitals & Nursing Initial State
             vitals: [],
-            addVitals: (v) => set((state) => ({ vitals: [...state.vitals, v] })),
+            nursingNotes: [],
+            nursingTasks: [],
+            medicationLogs: [],
+            addVitals: (v) => set((state) => ({
+                vitals: [...state.vitals, v],
+                patients: state.patients.map(p => p.id === v.patientId ? { ...p, nursingStatus: (v.temperature > 39 || v.oxygenSaturation < 90) ? 'Critical' : 'Stable' } : p)
+            })),
+            addNursingNote: (note) => set((state) => ({ nursingNotes: [...state.nursingNotes, note] })),
+            addNursingTask: (task) => set((state) => ({ nursingTasks: [...state.nursingTasks, task] })),
+            updateNursingTaskStatus: (taskId, status) => set((state) => ({
+                nursingTasks: state.nursingTasks.map(t => t.id === taskId ? { ...t, status } : t)
+            })),
+            logMedication: (log) => set((state) => ({ medicationLogs: [...state.medicationLogs, log] })),
 
             // Consultations Initial State
             consultations: [],

@@ -12,6 +12,7 @@ import {
 import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
+import { useHISStore } from '@/store/hisStore';
 
 const modules = [
     {
@@ -60,6 +61,14 @@ const modules = [
 
 export default function Dashboard() {
     const router = useRouter();
+    const { patients, vitals, reports, appointments, invoices } = useHISStore();
+
+    const stats = [
+        { label: 'OP/IP Patients', value: patients.length, color: '#3b82f6' },
+        { label: 'Critical Alerts', value: vitals.filter(v => v.temperature > 39 || v.oxygenSaturation < 92).length, color: '#ef4444' },
+        { label: 'Pending Reports', value: reports.filter(r => r.status === 'Processing').length, color: '#8b5cf6' },
+        { label: 'Total Unpaid', value: invoices.filter(i => i.status === 'Unpaid').length, color: '#f59e0b' }
+    ];
 
     const container = {
         hidden: { opacity: 0 },
@@ -80,10 +89,20 @@ export default function Dashboard() {
         <div style={{ minHeight: '100vh', paddingBottom: '40px' }}>
             <Navbar />
 
-            <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }}>
-                <div style={{ marginBottom: '40px' }}>
-                    <h1 style={{ fontSize: '2rem', fontWeight: '800', marginBottom: '8px' }}>Hospital Dashboard</h1>
-                    <p style={{ color: 'var(--text-muted)' }}>Welcome back. Here is an overview of your hospital systems.</p>
+            <main style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 24px' }} className="mobile-padding">
+                <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }} className="mobile-stack">
+                    <div>
+                        <h1 style={{ fontSize: '2.5rem', fontWeight: '900', marginBottom: '8px', letterSpacing: '-0.02em' }}>Hospital Control Center</h1>
+                        <p style={{ color: 'var(--text-muted)', fontSize: '1.1rem' }}>Real-time health informatics and department overview.</p>
+                    </div>
+                    <div style={{ display: 'flex', gap: '32px', marginTop: '20px' }} className="mobile-stack">
+                        {stats.map((s, i) => (
+                            <div key={i} style={{ textAlign: 'inherit' }} className="mobile-padding glass">
+                                <p style={{ fontSize: '0.75rem', fontWeight: '800', color: 'var(--text-muted)', textTransform: 'uppercase', marginBottom: '4px' }}>{s.label}</p>
+                                <h2 style={{ fontSize: '1.75rem', fontWeight: '900', color: s.color }}>{s.value}</h2>
+                            </div>
+                        ))}
+                    </div>
                 </div>
 
                 <motion.div
@@ -95,6 +114,7 @@ export default function Dashboard() {
                         gridTemplateColumns: 'repeat(auto-fill, minmax(350px, 1fr))',
                         gap: '24px'
                     }}
+                    className="mobile-grid-1"
                 >
                     {modules.map((mod, idx) => (
                         <motion.div

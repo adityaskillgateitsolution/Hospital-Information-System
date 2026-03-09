@@ -255,7 +255,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                             </div>
                         )}
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="mobile-grid-1">
                             {/* Patient */}
                             <div style={{ flex: 1 }}>
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '700', marginBottom: '8px' }}>
@@ -317,7 +317,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                         </div>
 
                         {/* Additional Patient Details */}
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '15px' }} className="mobile-grid-1">
                             <div>
                                 <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '700', marginBottom: '8px' }}>Age</label>
                                 <input
@@ -355,7 +355,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="mobile-grid-1">
                             <div>
                                 <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '700', marginBottom: '8px' }}>Patient Type</label>
                                 <div style={{ display: 'flex', gap: '10px', opacity: isReadOnly ? 0.7 : 1 }}>
@@ -392,7 +392,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="mobile-grid-1">
                             {/* Doctor */}
                             <div style={{ flex: 1 }}>
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '700', marginBottom: '8px' }}>
@@ -443,7 +443,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="mobile-grid-1">
                             {/* Start Time */}
                             <div style={{ flex: 1 }}>
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '700', marginBottom: '8px' }}>
@@ -480,7 +480,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }} className="mobile-grid-1">
                             {/* Status */}
                             <div style={{ flex: 1 }}>
                                 <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '700', marginBottom: '8px' }}>
@@ -563,7 +563,7 @@ export default function AppointmentModal({ isOpen, onClose, initialData }: Appoi
                                     <Shield size={18} color="var(--primary)" /> Room Allocation
                                 </h3>
 
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }} className="mobile-grid-1">
                                     <div>
                                         <label style={{ display: 'block', fontSize: '0.8rem', fontWeight: '700', marginBottom: '4px' }}>Ward Type</label>
                                         <select
